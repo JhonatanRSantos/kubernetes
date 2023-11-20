@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+
+metadata:
+  name: gows
+  labels:
+    app: gows
+    version: "1.0.0"
+
+spec:
+  containers:
+  - name: gows
+    image: jhonatanrs/ms-backend-istio:latest
+    resources:
+      limits:
+        memory: "50Mi"
+        cpu: "50m"
+    ports:
+      - containerPort: 80
+    env:
+      - name: APP_VERSION
+        value: "1.0.0"
+      - name: APP_PORT
+        value: ":80"
+
