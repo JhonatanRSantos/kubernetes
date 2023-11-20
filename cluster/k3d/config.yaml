@@ -1,0 +1,13 @@
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+
+metadata:
+  name: jrstech
+
+servers: 1
+agents: 3
+
+ports:
+  - port: 80:30000
+    nodeFilters:
+      - loadbalancer
