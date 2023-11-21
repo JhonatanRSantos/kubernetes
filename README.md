@@ -17,4 +17,11 @@ kubectl delete pod <POD_NAME>
 kubectl delete pod gows
 
 kubectl get replicasets
+
+kubectl describe pods <POD_NAME>
+kubectl describe pods gows
+
+kubectl get deployments
 ```
+
+Deployment -> ReplicaSet -> Pod

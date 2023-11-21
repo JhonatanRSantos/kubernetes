@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: gows
+
+spec:
+  selector:
+    matchLabels:
+      app: gows-app
+      version: "1.0.0"
+
+  replicas: 5
+
+  template:
+    metadata:
+      labels:
+        app: gows-app
+        version: "1.0.0"
+
+    spec:
+      containers:
+      - name: gows-app
+        image: jhonatanrs/ms-backend-istio:1.0.0
+        resources:
+          limits:
+            memory: "50Mi"
+            cpu: "50m"
+        ports:
+        - containerPort: 80
+        env:
+          - name: APP_VERSION
+            value: "1.0.0"
+          - name: APP_PORT
+            value: ":80"
+        
