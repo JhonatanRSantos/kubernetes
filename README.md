@@ -15,4 +15,6 @@ kubectl port-forward pod/gows 5000:80
 
 kubectl delete pod <POD_NAME>
 kubectl delete pod gows
+
+kubectl get replicasets
 ```

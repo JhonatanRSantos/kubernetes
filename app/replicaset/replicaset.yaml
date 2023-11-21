@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+
+metadata:
+  # Name of replicaset object
+  name: gows-rs
+  labels:
+    # Tags of replicaset object
+    app: gows-rs
+
+spec:
+  replicas: 2
+  # Select all containers that match the given labels
+  selector:
+    matchLabels:
+      app: gows-container
+      version: "1.0.0"
+
+  # Creat containers
+  template:
+    # Apply the metadata to all containers
+    metadata:
+      labels:
+        app: gows-container
+        version: "1.0.0"
+    
+    spec:
+      containers:
+        - name: gows-container
+          image: jhonatanrs/ms-backend-istio:latest
+          resources:
+            limits:
+              memory: "50Mi"
+              cpu: "50m"
+          ports:
+            - containerPort: 80
+          env:
+            - name: APP_VERSION
+              value: "1.0.0"
+            - name: APP_PORT
+              value: ":80"
