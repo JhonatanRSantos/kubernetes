@@ -12,6 +12,8 @@ kubectl exec -it gows -- sh
 
 kubectl port-forward pod/<POD_NAME> HOST_PORT:CONTAINER_PORT
 kubectl port-forward pod/gows 5000:80
+kubectl port-forward svc/<SERVICE_NAME>
+kubectl port-forward pod/gows-svc 5000:80
 
 kubectl delete pod <POD_NAME>
 kubectl delete pod gows
@@ -29,6 +31,8 @@ kubectl rollout history deployment gows
 kubectl rollout undo <OBJECT_TYPE> <OBJECT_NAME>
 kubectl rollout undo deployments gows 
 kubectl rollout undo deployments gows --to-revision=<REVISION_ID>
+
+kubectl proxy --port=8080
 ```
 
 Deployment -> ReplicaSet -> Pod

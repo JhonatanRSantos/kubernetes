@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: gows-ingress
+  labels:
+    name: gows-ingress
+
+spec:
+  rules:
+  - host: jrstech.com.br
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: gows-service
+            port: 
+              number: 80
+
+# Depois de configurar o ingress podemos editar o arquivo de hosts com o ip do ingress.
+# kubectl get ingress
