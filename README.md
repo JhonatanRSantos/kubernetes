@@ -22,6 +22,13 @@ kubectl describe pods <POD_NAME>
 kubectl describe pods gows
 
 kubectl get deployments
+
+kubectl rollout history <OBJECT_TYPE> <OBJECT_NAME>
+kubectl rollout history deployment gows
+
+kubectl rollout undo <OBJECT_TYPE> <OBJECT_NAME>
+kubectl rollout undo deployments gows 
+kubectl rollout undo deployments gows --to-revision=<REVISION_ID>
 ```
 
 Deployment -> ReplicaSet -> Pod
