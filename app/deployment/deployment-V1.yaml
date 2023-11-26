@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: gows-app
-        image: jhonatanrs/ms-backend-istio:1.0.0
+        image: jhonatanrs/ms-backend-test:1.0.0
         resources:
           limits:
             memory: "50Mi"
@@ -31,6 +31,7 @@ spec:
         envFrom:
           - configMapRef:
               name: gows-configmap
+
         # env:
         #   - name: APP_VERSION
         #     valueFrom:
@@ -43,6 +44,19 @@ spec:
         #       configMapKeyRef:
         #         name: gows-configmap
         #         key: APP_PORT
+
+        volumeMounts:
+          - mountPath: "/app/files"
+            name: numbers-configmap
+            readOnly: true
+
+      volumes:
+        - name: numbers-configmap
+          configMap:
+            name: numbers
+            items:
+              - key: numbers
+                path: "numbers.txt"
 
 ---
 apiVersion: v1
