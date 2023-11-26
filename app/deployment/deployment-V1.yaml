@@ -28,11 +28,21 @@ spec:
             cpu: "50m"
         ports:
         - containerPort: 80
-        env:
-          - name: APP_VERSION
-            value: "1.0.0"
-          - name: APP_PORT
-            value: ":80"
+        envFrom:
+          - configMapRef:
+              name: gows-configmap
+        # env:
+        #   - name: APP_VERSION
+        #     valueFrom:
+        #       configMapKeyRef:
+        #         name: gows-configmap
+        #         key: APP_VERSION
+
+        #   - name: APP_PORT
+        #     valueFrom:
+        #       configMapKeyRef:
+        #         name: gows-configmap
+        #         key: APP_PORT
 
 ---
 apiVersion: v1
