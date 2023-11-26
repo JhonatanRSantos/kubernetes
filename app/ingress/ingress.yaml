@@ -2,13 +2,23 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 
 metadata:
-  name: gows-ingress
+  name: jrstech.com.br
   labels:
-    name: gows-ingress
+    name: jrstech.com.br
 
 spec:
   rules:
-  - host: jrstech.com.br
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: gows-service
+            port:
+              number: 80
+
+  - host: gows.jrstech.com.br
     http:
       paths:
       - pathType: Prefix
@@ -16,6 +26,17 @@ spec:
         backend:
           service:
             name: gows-service
+            port: 
+              number: 80
+
+  - host: ws.jrstech.com.br
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: ws-service
             port: 
               number: 80
 

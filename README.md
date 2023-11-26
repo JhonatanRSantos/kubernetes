@@ -33,6 +33,8 @@ kubectl rollout undo deployments gows
 kubectl rollout undo deployments gows --to-revision=<REVISION_ID>
 
 kubectl proxy --port=8080
+
+kubectl edit <RESOURCE>/<RESOURCE_NAME>
 ```
 
 Deployment -> ReplicaSet -> Pod

@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: gows
+
+spec:
+  selector:
+    matchLabels:
+      app: gows-app
+      version: "1.0.0"
+
+  replicas: 1
+
+  template:
+    metadata:
+      labels:
+        app: gows-app
+        version: "1.0.0"
+
+    spec:
+      containers:
+      - name: gows-app
+        image: jhonatanrs/ms-backend-istio:1.0.0
+        resources:
+          limits:
+            memory: "50Mi"
+            cpu: "50m"
+        ports:
+        - containerPort: 80
+        env:
+          - name: APP_VERSION
+            value: "1.0.0"
+          - name: APP_PORT
+            value: ":80"
+
+---
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: gows-service
+
+spec:
+  # Tipos suportados de serviços
+  # ClusterIP, NodePort, LoadBalancer, Heeadless
+  # NodePort tem um range de portas externas suportadas: 30000 - 32767
+  type: ClusterIP
+  selector:
+    app: gows-app
+
+  ports:
+  - name: gows-http
+    port: 80
+    targetPort: 80
+    # nodePort: 30000
