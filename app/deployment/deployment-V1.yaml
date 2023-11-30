@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: gows-app
-        image: jhonatanrs/ms-backend-test:1.0.0
+        image: jhonatanrs/ms-backend-test:2.0.1
         resources:
           limits:
             memory: "50Mi"
@@ -33,6 +33,64 @@ spec:
               name: gows-configmap
           - secretRef:
               name: gows-secrets
+
+        # Executa sempre na inicialização do container antes do readinessProbe e livenessProbe.
+        # Quando o startupProbe detectar que o container está ok ele libera a execução periodica do readinessProbe e livenessProbe.
+        startupProbe:
+          # Intervalo entre cada chamada do rediness
+          periodSeconds: 3
+          # Timeout das chamadas
+          timeoutSeconds: 1
+          # Total de falhas para considerar que o container não está pronto
+          # Atenção: Quando o startupProbe atingir o limite de falhas ele vai considerar o container como não inicializado com sucesso.
+          # Nesse caso podemos usar um número maior de falhas.
+          failureThreshold: 30
+          # Tempo máximo para considerar uma inicialização como falha: (nesse cenário)
+          # 30 falhas * 3 segundos de intervalo entre chamadas = 90 segundos
+          
+          httpGet:
+            path: /health
+            # Porta do container
+            port: 80
+
+        # Executa periodicamente é remove oncontainer da rede em caso de alguma falha for detectada.
+        # REMOVE O TRÁFEGO
+        readinessProbe:
+          # Intervalo entre cada chamada do rediness
+          periodSeconds: 3
+          # Timeout das chamadas
+          timeoutSeconds: 1
+          # Total de falhas para considerar que o container não está pronto
+          failureThreshold: 1
+          # Total de sucessos para considerar que o container está pronto
+          successThreshold: 1
+          # Delay para a execução da primeira chamada do rediness
+          # initialDelaySeconds: 10
+
+          httpGet:
+            path: /health
+            # Porta do container
+            port: 80
+
+        # Executa periodicamente é reinicializa o container em caso de alguma falha for detectada.
+        # REINICIA O CONTAINER
+        livenessProbe:
+         # Intervalo entre cada chamada do liviness
+          periodSeconds: 6
+          # Timeout das chamadas
+          timeoutSeconds: 1
+          # Total de falhas para considerar que o container não está pronto
+          failureThreshold: 1
+          # Total de sucessos para considerar que o container está pronto
+          successThreshold: 1
+          # Delay para a execução da primeira chamada do liveness
+          # initialDelaySeconds: 10
+
+          httpGet:
+            path: /health
+            # Porta do container
+            port: 80
+
 
         # env:
         #   - name: APP_VERSION
