@@ -38,6 +38,13 @@ kubectl edit <RESOURCE>/<RESOURCE_NAME>
 
 kubectl api-resources --namespaced=false
 kubectl api-resources --namespaced=true
+
+kubectl -n kube-system get all
+
+ kubectl top pods --containers --sum -A
+ kubectl -n default top pods --containers --sum
 ```
 
 Deployment -> ReplicaSet -> Pod
+
+kubectl run -it fortio --rm --image=fortio/fortio -- load -qps 80000 -t 120s -c 70 "http://<SERVICE_NAME>/health"

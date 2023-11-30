@@ -10,7 +10,7 @@ spec:
       app: gows-app
       version: "1.0.0"
 
-  replicas: 1
+  replicas: 2
 
   template:
     metadata:
@@ -22,12 +22,16 @@ spec:
       containers:
       - name: gows-app
         image: jhonatanrs/ms-backend-test:2.0.1
+
         resources:
           limits:
-            memory: "50Mi"
-            cpu: "50m"
+            # vCPU = 1000m (millicores)
+            cpu: "1000m"
+            memory: "256Mi"
+        
         ports:
         - containerPort: 80
+
         envFrom:
           - configMapRef:
               name: gows-configmap
@@ -47,7 +51,7 @@ spec:
           failureThreshold: 30
           # Tempo máximo para considerar uma inicialização como falha: (nesse cenário)
           # 30 falhas * 3 segundos de intervalo entre chamadas = 90 segundos
-          
+
           httpGet:
             path: /health
             # Porta do container
