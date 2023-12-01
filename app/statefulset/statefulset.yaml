@@ -1,0 +1,49 @@
+# Headless service
+apiVersion: v1
+kind: Service
+
+metadata:
+  # Deve ser igual ao nome do serviceName do statefulset
+  name: gows-db-h
+
+spec:
+  selector:
+    app: gows-db
+
+  clusterIP: None
+  ports:
+  - port: 3306
+    targetPort: 3306
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+
+metadata:
+  name: gows-db
+
+spec:
+  selector:
+    matchLabels:
+      app: gows-db
+
+  serviceName: gows-db-h
+  replicas: 2
+
+  template:
+    metadata:
+      labels:
+        app: gows-db
+
+    spec:
+      containers:
+      - name: gows-db
+        image: mysql
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: root
+        ports:
+        - containerPort: 3306
+
+# ping gows-db-0.gows-db-h.default.svc.cluster.local        
+# ping gows-db-1.gows-db-h.default.svc.cluster.local
