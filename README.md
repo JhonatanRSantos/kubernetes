@@ -41,8 +41,13 @@ kubectl api-resources --namespaced=true
 
 kubectl -n kube-system get all
 
- kubectl top pods --containers --sum -A
- kubectl -n default top pods --containers --sum
+kubectl top pods --containers --sum -A
+kubectl -n default top pods --containers --sum
+
+kubectl get storageclass
+kubectl get persistentVolumeClaim
+kubectl get pvc
+
 ```
 
 Deployment -> ReplicaSet -> Pod

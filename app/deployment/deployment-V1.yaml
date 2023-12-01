@@ -114,7 +114,14 @@ spec:
             name: numbers-configmap
             readOnly: true
 
+          - mountPath: "/app/ext"
+            name:  files
+
       volumes:
+        - name: files
+          persistentVolumeClaim:
+            claimName: gows
+
         - name: numbers-configmap
           configMap:
             name: numbers
